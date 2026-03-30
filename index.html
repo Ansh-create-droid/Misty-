@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MishtiFlix - Happy Birthday! 🎉</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Netflix Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #141414;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Netflix Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 4%;
+            transition: all 0.3s ease;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #e50914, #f5f5f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 2rem;
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23e50914" width="1200" height="600"/><circle fill="%23ff6b6b" opacity="0.3" cx="200" cy="200" r="100"/><circle fill="%23ffd93d" opacity="0.4" cx="800" cy="300" r="150"/><circle fill="%234ecdc4" opacity="0.3" cx="1000" cy="150" r="80"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 4%;
+            position: relative;
+        }
+        
+        .hero-content h1 {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .hero-content .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            line-height: 1.4;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: #e50914;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #f40612;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(109,109,110,0.7);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(109,109,110,1);
+        }
+        
+        /* Netflix Rows */
+        .section {
+            padding: 2rem 4% 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        
+        .row {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .row::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .row-poster {
+            min-width: 200px;
+            height: 300px;
+            background: linear-gradient(45deg, #e50914, #ff6b6b);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .row-poster:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        
+        .row-poster i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .row-poster span {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Special Birthday Row */
+        .birthday-row .row-poster {
+            background: linear-gradient(135deg, #ffd93d, #ff6b6b, #e50914);
+            animation: birthdayPulse 2s infinite;
+        }
+        
+        @keyframes birthdayPulse {
+            0%, 100% { box-shadow: 0 8px 20px rgba(229,9,20,0.4); }
+            50% { box-shadow: 0 8px 30px rgba(255,217,61,0.6); }
+        }
+        
+        /* Footer */
+        .footer {
+            background: #000;
+            text-align: center;
+            padding: 3rem 4%;
+            border-top: 1px solid #333;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .row-poster {
+                min-width: 160px;
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Mishti<span style="color:#e50914">Flix</span></div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Happy Birthday <br> <span style="color:#ffd93d">Mishti!</span></h1>
+            <p class="tagline">Your special day deserves a Netflix-worthy celebration 🎉<br>Click "Watch Memories" for your personal highlight reel!</p>
+            <div class="hero-buttons">
+                <a href="photos.html" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Watch Memories
+                </a>
+                <button class="btn btn-secondary" onclick="celebrate()">
+                    <i class="fas fa-gift"></i> Party Time!
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <h2 class="section-title">🎂 Birthday Specials</h2>
+        <div class="row birthday-row">
+            <div class="row-poster">
+                <i class="fas fa-birthday-cake fa-3x"></i>
+                <span>🎂 Birthday Cake</span>
+            </div>
+            <div class="row-poster">
+                <i class="fas fa-gifts fa-3x"></i>
+                <span>🎁 Gifts Galore</span>
+            </div>
+            <div class="row-poster">
+                <i class="fas fa-laugh fa-3x"></i>
+                <span>😂 Laughter Forever</span>
+            </div>
+            <div class="row-poster">
+                <i class="fas fa-heart fa-3x"></i>
+                <span>💕 Love Always</span>
+            </div>
+            <div class="row-poster">
+                <i class="fas fa-star fa-3x"></i>
+                <span>⭐ Dreams Come True</span>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <h2 class="section-title">🎈 Celebration Collection</h2>
+        <div class="row">
+            <div class="row-poster" style="background: linear-gradient(45deg, #4ecdc4, #44a08d);">
+                <i class="fas fa-balloon-alt fa-3x"></i>
+                <span>Party Vibes</span>
+            </div>
+            <div class="row-poster" style="background: linear-gradient(45deg, #ffd93d, #feca57);">
+                <i class="fas fa-music fa-3x"></i>
+                <span>Dance Floor</span>
+            </div>
+            <div class="row-poster" style="background: linear-gradient(45deg, #a8e6cf, #88d8a3);">
+                <i class="fas fa-camera-retro fa-3x"></i>
+                <span>Photo Booth</span>
+            </div>
+            <div class="row-poster" style="background: linear-gradient(45deg, #ff9ff3, #f368e0);">
+                <i class="fas fa-sparkles fa-3x"></i>
+                <span>Magic Moments</span>
+            </div>
+            <div class="row-poster" style="background: linear-gradient(45deg, #54a0ff, #2e86de);">
+                <i class="fas fa-trophy fa-3x"></i>
+                <span>Queen Mishti</span>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <p>💖 Made with love for the birthday girl | MishtiFlix 2026 🎉</p>
+    </footer>
+
+    <script>
+        function celebrate() {
+            // Confetti explosion
+            for(let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.cssText = `
+                    position: fixed;
+                    width: 10px; height: 10px;
+                    background: hsl(${Math.random()*360}, 70%, 60%);
+                    left: ${Math.random()*100}vw;
+                    top: -10px;
+                    animation: fall 3s linear forwards;
+                    z-index: 9999;
+                    pointer-events: none;
+                `;
+                confetti.style.animationDelay = Math.random()*0.5 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+            
+            // Shake effect
+            document.body.style.animation = 'shake 0.5s';
+            setTimeout(() => document.body.style.animation = '', 500);
+        }
+        
+        // Add shake keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            }
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Auto-scroll rows
+        document.querySelectorAll('.row').forEach(row => {
+            let scrollPos = 0;
+            const scrollInterval = setInterval(() => {
+                scrollPos += 2;
+                if (scrollPos >= row.scrollWidth - row.clientWidth) scrollPos = 0;
+                row.scrollLeft = scrollPos;
+            }, 50);
+            
+            row.addEventListener('mouseenter', () => clearInterval(scrollInterval));
+            row.addEventListener('mouseleave', () => {
+                // Restart auto-scroll
+            });
+        });
+    </script>
+</body>
+</html>

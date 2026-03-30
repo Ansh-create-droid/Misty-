@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MishtiFlix - Memories Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #141414;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #E50914, #F5F5F1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: auto;
+        }
+
+        .back-btn {
+            background: rgba(109,109,110,0.7);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(109,109,110,1);
+            transform: translateY(-1px);
+        }
+
+        /* Hero */
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
+                        url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiBmaWxsPSIjMTQxNDE0Ii8+CjxjaXJjbGUgY3g9IjMwMCIgY3k9IjMwMCIgcj0iMjUwIiBmaWxsPSIjRkZDOTNEIiBvcGFjaXR5PSIwLjMiLz4KPGNpcmNsZSBjeD0iMTUwMCIgY3k9IjQwMCIgcj0iMzAwIiBmaWxsPSIjRkY2QjZCIiBvcGFjaXR5PSIwLjQiLz4KPGNpcmNsZSBjeD0iNjAwIiBjeT0iNjAwIiByPSIyMDAiIGZpbGw9IiM0RUNTQzkiIG9wYWNpdHk9IjAuMyIvPgo8L3N2Zz4K');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 50px;
+            margin-top: 70px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 7vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            max-width: 700px;
+            line-height: 1.5;
+        }
+
+        /* Content Rows */
+        .content {
+            padding: 50px 50px 100px;
+        }
+
+        .row {
+            margin-bottom: 40px;
+        }
+
+        .row-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            color: #fff;
+            position: relative;
+        }
+
+        .row-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 25px;
+            background: #E50914;
+            border-radius: 2px;
+        }
+
+        .row-container {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .row-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Photo Posters */
+        .photo-poster {
+            min-width: 280px;
+            height: 420px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .photo-poster:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(229,9,20,0.4);
+            z-index: 10;
+        }
+
+        .photo-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            color: white;
+            padding: 25px 20px 20px;
+            transform: translateY(100%);
+            transition: all 0.4s ease;
+        }
+
+        .photo-poster:hover .photo-overlay {
+            transform: translateY(0);
+        }
+
+        .photo-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .photo-meta {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Video Posters */
+        .video-poster {
+            min-width: 320px;
+            height: 480px;
+            background: #222;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-poster:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(229,9,20,0.5);
+        }
+
+        .video-poster video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-play-icon {
+            position: absolute;
+            font-size: 3rem;
+            color: #E50914;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .video-poster:hover .video-play-icon {
+            transform: scale(1.1);
+        }
+
+        /* Featured Large Poster */
+        .featured-poster {
+            min-width: 450px;
+            height: 650px;
+            margin-right: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header, .content { padding: 0 20px; }
+            .hero { padding: 0 20px; }
+            .photo-poster { min-width: 220px; height: 330px; }
+            .video-poster { min-width: 260px; height: 390px; }
+            .featured-poster { min-width: 320px; height: 480px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">🎂 MishtiFlix</div>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Home
+        </a>
+    </header>
+
+    <section class="hero">
+        <h1>📸 Mishti's Complete Collection</h1>
+        <p class="hero-subtitle">Photos and videos from every chapter of your amazing life. Every moment preserved in cinematic glory 💖</p>
+    </section>
+
+    <main class="content">
+        <!-- Featured Memories -->
+        <section class="row">
+            <h2 class="row-title">⭐ FEATURED MEMORIES</h2>
+            <div class="row-container">
+                <div class="photo-poster featured-poster">
+                    <img src="D:/New folder school/IMG_1.jpg" alt="Mishti Featured">
+                    <div class="photo-overlay">
+                        <div class="photo-title">The Birthday Girl ✨</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-star"></i>
+                            <span>Featured • Today</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_2.jpg" alt="Mishti">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Golden Memories</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-camera"></i>
+                            <span>2023</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_3.jpg" alt="Mishti">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Pure Happiness</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-heart"></i>
+                            <span>2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section class="row">
+            <h2 class="row-title">📷 PHOTO GALLERY</h2>
+            <div class="row-container">
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_4.jpg" alt="Mishti">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Eyes of Wonder</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-image"></i>
+                            <span>April 2023</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_5.jpg" alt="Mishti">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Summer Bliss</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-sun"></i>
+                            <span>January 2024</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_6.jpg" alt="Mishti">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Timeless Beauty</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-crown"></i>
+                            <span>October 2024</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_7.jpg" alt="Mishti">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Festival Glow</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-magic"></i>
+                            <span>2023</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_8.jpg" alt="Mishti">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Winter Princess</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-snowflake"></i>
+                            <span>December 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Collection -->
+        <section class="row">
+            <h2 class="row-title">🎬 VIDEO HIGHLIGHTS</h2>
+            <div class="row-container">
+                <div class="video-poster">
+                    <video muted loop playsinline>
+                        <source src="VID_1.mp4" type="video/mp4">
+                    </video>
+                    <i class="fas fa-play video-play-icon"></i>
+                    <div class="photo-overlay">
+                        <div class="photo-title">Dance Party Madness</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-video"></i>
+                            <span>2:47 • HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-poster">
+                    <video muted loop playsinline>
+                        <source src="VID_2.mp4" type="video/mp4">
+                    </video>
+                    <i class="fas fa-play video-play-icon"></i>
+                    <div class="photo-overlay">
+                        <div class="photo-title">Birthday Vlog 2024</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-film"></i>
+                            <span>4:22 • 4K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-poster">
+                    <div style="background: linear-gradient(135deg, #4A90E2, #357ABD); height: 100%; position: relative;">
+ <video muted loop playsinline>
+                        <source src="VID_3.mp4" type="video/mp4">
+                    </video>
+                        <i class="fas fa-video fa-5x" style="opacity: 0.3;"></i>
+                    </div>
+                    <i class="fas fa-play video-play-icon"></i>
+                    <div class="photo-overlay">
+                        <div class="photo-title">Family Gathering</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-users"></i>
+                            <span>3:15 • Full HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-poster">
+                    <div style="background: linear-gradient(135deg, #50C878, #38B66D); height: 100%; position: relative;">
+        <video muted loop playsinline>
+                        <source src="VID_4.mp4" type="video/mp4">
+                    </video>
+                        <i class="fas fa-camera-movie fa-5x" style="opacity: 0.3;"></i>
+                    </div>
+                    <i class="fas fa-play video-play-icon"></i>
+                    <div class="photo-overlay">
+                        <div class="photo-title">Travel Adventures</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-plane"></i>
+                            <span>5:30 • 1080p</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Childhood Memories -->
+        <section class="row">
+            <h2 class="row-title">👶 CHILDHOOD CLASSICS</h2>
+            <div class="row-container">
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_9.jpg" alt="Childhood">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Little Mishti</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-baby"></i>
+                            <span>2010s</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_10.jpg" alt="Childhood">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Mumma</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-walking"></i>
+                            <span>Early Years</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-poster">
+                    <img src="D:/New folder school/IMG_11.jpg" alt="Childhood">
+                    <div class="photo-overlay">
+                        <div class="photo-title">Papa</div>
+                        <div class="photo-meta">
+                            <i class="fas fa-walking"></i>
+                            <span>Early Years</span>
+                        </div>
+                    </div>
+                </div>
